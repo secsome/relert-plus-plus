@@ -10,5 +10,8 @@ The project is not aiming at the original bugged FA2, but will take it as a refe
 Still managing to introduce the classes.
 
 ## Other WIP map editors
-[relerts-sharp](https://github.com/FrozenFog/relert-sharp) - A WPF based Map Editor
+[relert-sharp](https://github.com/FrozenFog/relert-sharp) - A WPF based Map Editor (not public yet)
+
 [TSMapEditor](https://github.com/Rampastring/TSMapEditor) - A MonoGame based Map Editor
+
+`Another Java Map Editor by RP` (I don't know anything more')
