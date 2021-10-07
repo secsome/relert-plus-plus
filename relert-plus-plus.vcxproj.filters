@@ -30,6 +30,9 @@
     <ClInclude Include="include\CFinalSunLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\CINI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CFinalSunApp.cpp">
@@ -39,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CFinalSunLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Structures\CINI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
