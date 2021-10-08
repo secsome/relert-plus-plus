@@ -1,6 +1,8 @@
 #include <CFinalSunApp.h>
 #include <CFinalSunDlg.h>
 
+#include <CINI.h>
+
 CFinalSunDlg::CFinalSunDlg(CWnd* pParent)
 	: CDialogEx(IDD_CFINALSUN_DIALOG, pParent)
 {
@@ -27,6 +29,11 @@ BOOL CFinalSunDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	CINI::Rules.ReadFromFile(R"(C:\Users\30270\Desktop\rulesmo.ini)");
+	for (auto& pair : CINI::Rules)
+	{
+		
+	}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
