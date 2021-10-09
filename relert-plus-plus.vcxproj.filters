@@ -33,6 +33,12 @@
     <ClInclude Include="include\CINI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\CLoading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EnumHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CFinalSunApp.cpp">

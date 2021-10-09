@@ -25,14 +25,14 @@ public:
 	char MapPath[MAX_PATH];
 	CString Language;
 	CString RecentFiles[4];
-	bool FlatToGround;
-	bool FrameMode;
-	bool MarbleLoaded;
 	bool ShowBuildingCells;
 	bool DisableAutoShore;
 	bool DisableAutoLat;
 	bool NoSounds;
 	bool DisableSlopeCorrection;
+	bool MarbleLoaded;
+	bool FlatToGround;
+	bool FrameMode;
 	CLoading* Loading;
 	UINT ClipboardFormat;
 	HACCEL AccTable;

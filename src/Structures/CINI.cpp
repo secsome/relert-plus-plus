@@ -119,6 +119,7 @@ CINI CINI::Lunar;
 CINI CINI::Desert;
 CINI CINI::FAData;
 CINI CINI::FALanguage;
+CINI CINI::FinalAlert;
 CINI CINI::CurrentDocument;
 
 bool CINI::ReadFromFile(CString&& path)
@@ -138,6 +139,7 @@ bool CINI::ReadFromFile(CString&& path)
     
     auto buffer = new char[size];
     fin.read(buffer, size);
+    fin.close();
     bool result = Parse(buffer, size);
     delete[] buffer;
 
@@ -147,6 +149,33 @@ bool CINI::ReadFromFile(CString&& path)
 bool CINI::ReadFromFile(CString& path)
 {
     return ReadFromFile(std::forward<CString>(path));
+}
+
+bool CINI::WriteToFile(CString&& path) const
+{
+    std::ofstream fout;
+    fout.open(path, std::ios::out | std::ios::trunc);
+
+    if (!fout.is_open())
+        return false;
+
+    for (auto& section : *this)
+    {
+        fout << '[' << section.first << "]\n";
+        for (auto& pair : section.second)
+            fout << pair.first << '=' << pair.second << '\n';
+        fout << '\n';
+    }
+
+    fout.flush();
+    fout.close();
+    
+    return true;
+}
+
+bool CINI::WriteToFile(CString& path) const
+{
+    return WriteToFile(std::forward<CString>(path));
 }
 
 bool CINI::Parse(char* buffer, int size)

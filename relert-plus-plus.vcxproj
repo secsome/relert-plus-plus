@@ -191,6 +191,8 @@
     <ClInclude Include="include\CFinalSunDlg.h" />
     <ClInclude Include="include\CFinalSunLog.h" />
     <ClInclude Include="include\CINI.h" />
+    <ClInclude Include="include\CLoading.h" />
+    <ClInclude Include="include\EnumHelper.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\Always.h" />
   </ItemGroup>

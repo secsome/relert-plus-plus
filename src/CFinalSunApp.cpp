@@ -5,6 +5,8 @@
 #include <CFinalSunApp.h>
 #include <CFinalSunDlg.h>
 
+#include <CINI.h>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -85,8 +87,39 @@ BOOL CFinalSunApp::InitInstance()
 	memset(this->MapPath, 0, MAX_PATH);
 
 	// CINI stuff(fadata and falanguage)
+	this->GlobalBuffer = this->ExePath;
+	this->GlobalBuffer += "\\FAData.ini";
+	CINI::FAData.ReadFromFile(this->GlobalBuffer);
+
+	this->GlobalBuffer = this->ExePath;
+	this->GlobalBuffer += "\\FALanguage.ini";
+	CINI::FALanguage.ReadFromFile(this->GlobalBuffer);
+	if (CINI::FALanguage.GetSectionCount() == 0)
+	{
+		::MessageBox(
+			NULL,
+			"FALanguage.ini does not exist or is not valid (download corrupt?)",
+			"",
+			MB_OK
+		);
+		exit(0);
+	}
 
 	// FinalAlert INI, get FilePath, initialize members like ShowBuildingCells
+	this->GlobalBuffer = this->ExePath;
+	this->GlobalBuffer += "\\FinalAlert.ini";
+	CINI::FinalAlert.ReadFromFile(this->GlobalBuffer);
+
+	this->DisableAutoShore = CINI::FinalAlert.ReadBoolean("UserInterface", "DisableAutoShore");
+	this->ShowBuildingCells = CINI::FinalAlert.ReadBoolean("UserInterface", "ShowBuildingCells");
+	this->DisableAutoLat = CINI::FinalAlert.ReadBoolean("UserInterface", "DisableAutoLat");
+	this->NoSounds = CINI::FinalAlert.ReadBoolean("UserInterface", "NoSounds");
+	this->DisableSlopeCorrection = CINI::FinalAlert.ReadBoolean("UserInterface", "DisableSlopeCorrection");
+	
+	this->RecentFiles[0] = CINI::FinalAlert.ReadString("Files", "0");
+	this->RecentFiles[1] = CINI::FinalAlert.ReadString("Files", "1");
+	this->RecentFiles[2] = CINI::FinalAlert.ReadString("Files", "2");
+	this->RecentFiles[3] = CINI::FinalAlert.ReadString("Files", "3");
 
 	// Create CLoading
 

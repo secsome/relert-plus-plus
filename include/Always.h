@@ -35,4 +35,6 @@
 #define new DEBUG_NEW
 #endif
 
+#include <EnumHelper.h>
+
 #include <CFinalSunLog.h>

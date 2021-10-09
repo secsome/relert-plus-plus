@@ -54,10 +54,13 @@ public:
     static CINI Desert;
     static CINI FAData;
     static CINI FALanguage;
+    static CINI FinalAlert;
     static CINI CurrentDocument;
 
     bool ReadFromFile(CString&& path);
     bool ReadFromFile(CString& path);
+    bool WriteToFile(CString&& path) const;
+    bool WriteToFile(CString& path) const;
     bool Parse(char* buffer, int size);
     void Clear();
 
