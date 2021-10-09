@@ -1,6 +1,6 @@
 #include <CBlowFish.h>
 
-const const int p_[18] = {
+const unsigned int CBlowFish::p_[18] = {
 	0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
 	0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89,
 	0x452821e6, 0x38d01377, 0xbe5466cf, 0x34e90c6c,
@@ -8,7 +8,7 @@ const const int p_[18] = {
 	0x9216d5d9, 0x8979fb1b,
 };
 
-const const int s_[4][256] = {
+const unsigned int CBlowFish::s_[4][256] = {
 	0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7,
 	0xb8e1afed, 0x6a267e96, 0xba7c9045, 0xf12c7f99,
 	0x24a19947, 0xb3916cf7, 0x0801f2e2, 0x858efc16,
@@ -364,17 +364,14 @@ void CBlowFish::Decipher(int& xl, int& xr) const
 
 int CBlowFish::reverse(int v) const
 {
-	/*
-	* 
-	_asm
+	/*_asm
 	{
 		mov		eax, v
 		xchg	al, ah
 		rol		eax, 16
 		xchg	al, ah
 		mov		v, eax
-	}
-	*/
+	}*/
 	v = (v << 16) | (v >> 16);
 	v = ((v << 8) & 0xFF00FF00) | ((v >> 8) & 0x00FF00FF);
 	return v;

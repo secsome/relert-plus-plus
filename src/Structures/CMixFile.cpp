@@ -14,5 +14,5 @@ int CMixFile::CreateInstance(char* buffer)
 
 CMixFile* CMixFile::GetInstance(int index)
 {
-    return index >= 0 && index < Instances.size() ? &Instances[index] : nullptr;
+    return index >= 0 && index < (int)Instances.size() ? &Instances[index] : nullptr;
 }

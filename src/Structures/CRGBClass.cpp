@@ -2,6 +2,8 @@
 
 #include <CHSVClass.h>
 
+#include <algorithm>
+
 CRGBClass::CRGBClass()
 {
 	R = G = B = 0;
@@ -17,9 +19,9 @@ CRGBClass::CRGBClass(byte r, byte g, byte b)
 CRGBClass::operator CHSVClass() const
 {
 	int H = 0, S = 0, V = 0;
-	int white = std::min(R, G, B);
+	int white = std::min({ R, G, B });
 
-	if (V = std::max(R, G, B))
+	if (V = std::max({ R, G, B }))
 		S = ((V - white) * 255) / V;
 
 	if (S != 0)

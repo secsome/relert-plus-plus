@@ -9,6 +9,14 @@
 // turns off MFC's hiding of some common and often safely ignored warning messages
 #define _AFX_ALL_WARNINGS
 
+// Microsoft's GDIPlus.h needs these two macros but we want to turn them off
+#ifndef max
+#define max(a,b)            (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)            (((a) < (b)) ? (a) : (b))
+#endif
 
 #include <SDKDDKVer.h>
 
@@ -20,6 +28,8 @@
 #include <afxcontrolbars.h> // MFC support for ribbons and control bars
 #include <afxdialogex.h>
 
+#undef max
+#undef min
 
 #if defined _M_IX86
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")

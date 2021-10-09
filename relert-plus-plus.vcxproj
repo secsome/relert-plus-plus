@@ -93,7 +93,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -140,7 +140,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NOMINMAX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -187,22 +187,36 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\CBlowFish.h" />
+    <ClInclude Include="include\CCRC.h" />
+    <ClInclude Include="include\CHSVClass.h" />
+    <ClInclude Include="include\CMixFile.h" />
+    <ClInclude Include="include\CPublicKey.h" />
+    <ClInclude Include="include\CRGBClass.h" />
     <ClInclude Include="include\CFinalSunApp.h" />
     <ClInclude Include="include\CFinalSunDlg.h" />
     <ClInclude Include="include\CFinalSunLog.h" />
     <ClInclude Include="include\CINI.h" />
     <ClInclude Include="include\CLoading.h" />
+    <ClInclude Include="include\CPalFile.h" />
     <ClInclude Include="include\EnumHelper.h" />
     <ClInclude Include="include\CObjectImage.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\Always.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Algorithms\CBlowFish.cpp" />
+    <ClCompile Include="src\Algorithms\CCRC.cpp" />
+    <ClCompile Include="src\Structures\CMixFile.cpp" />
+    <ClCompile Include="src\Structures\CPalFile.cpp" />
     <ClCompile Include="src\CFinalSunApp.cpp" />
     <ClCompile Include="src\CFinalSunLog.cpp" />
     <ClCompile Include="src\Dialogs\CFinalSunDlg.cpp" />
+    <ClCompile Include="src\Structures\CHSVClass.cpp" />
     <ClCompile Include="src\Structures\CINI.cpp" />
     <ClCompile Include="src\Structures\CObjectImage.cpp" />
+    <ClCompile Include="src\Algorithms\CPublicKey.cpp" />
+    <ClCompile Include="src\Structures\CRGBClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Accelerators.rc" />

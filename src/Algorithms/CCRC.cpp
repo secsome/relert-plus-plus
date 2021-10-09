@@ -26,7 +26,7 @@ int CCRC::operator() (void const* buffer, int length)
 		char const* dataptr = (char const*)buffer;
 		int bytes_left = length;
 
-		while (bytes_left && Index != 0()) 
+		while (bytes_left && Index != 0) 
 		{
 			operator()(*dataptr);
 			++dataptr;
