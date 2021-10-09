@@ -193,6 +193,7 @@
     <ClInclude Include="include\CINI.h" />
     <ClInclude Include="include\CLoading.h" />
     <ClInclude Include="include\EnumHelper.h" />
+    <ClInclude Include="include\CObjectImage.h" />
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\Always.h" />
   </ItemGroup>
@@ -201,6 +202,7 @@
     <ClCompile Include="src\CFinalSunLog.cpp" />
     <ClCompile Include="src\Dialogs\CFinalSunDlg.cpp" />
     <ClCompile Include="src\Structures\CINI.cpp" />
+    <ClCompile Include="src\Structures\CObjectImage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Accelerators.rc" />
