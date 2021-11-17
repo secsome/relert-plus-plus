@@ -1,14 +1,13 @@
 #include <CBlowFish.h>
 
-const unsigned int CBlowFish::p_[18] = {
-	0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
-	0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89,
-	0x452821e6, 0x38d01377, 0xbe5466cf, 0x34e90c6c,
-	0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917,
-	0x9216d5d9, 0x8979fb1b,
-};
-
-const unsigned int CBlowFish::s_[4][256] = {
+CBlowFish::CBlowFish()
+	:  m_p {
+		0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
+		0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89,
+		0x452821e6, 0x38d01377, 0xbe5466cf, 0x34e90c6c,
+		0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917,
+		0x9216d5d9, 0x8979fb1b,
+	},  m_s {
 	0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7,
 	0xb8e1afed, 0x6a267e96, 0xba7c9045, 0xf12c7f99,
 	0x24a19947, 0xb3916cf7, 0x0801f2e2, 0x858efc16,
@@ -265,144 +264,136 @@ const unsigned int CBlowFish::s_[4][256] = {
 	0x1948c25c, 0x02fb8a8c, 0x01c36ae4, 0xd6ebe1f9,
 	0x90d4f869, 0xa65cdea0, 0x3f09252d, 0xc208e69f,
 	0xb74e6132, 0xce77e25b, 0x578fdfe3, 0x3ac372e6,
-};
-
-void CBlowFish::SetKey(const byte* key, int cb_key)
+}
 {
-	int i, j;
-	int datal, datar;
+}
 
-	memcpy(p, p_, sizeof(p_));
-	memcpy(s, s_, sizeof(s_));
-
-	j = 0;
-	for (i = 0; i < 18; i++)
+void CBlowFish::SetKey(byte* key, uint32_t size)
+{
+	for (int i = 0, j = 0; i < 18; ++i)
 	{
-		int a = key[j++]; j %= cb_key;
-		int b = key[j++]; j %= cb_key;
-		int c = key[j++]; j %= cb_key;
-		int d = key[j++]; j %= cb_key;
-		p[i] ^= a << 24 | b << 16 | c << 8 | d;
+		uint32_t a = key[j++ % size];
+		uint32_t b = key[j++ % size];
+		uint32_t c = key[j++ % size];
+		uint32_t d = key[j++ % size];
+
+		m_p[i] ^= a << 24 | b << 16 | c << 8 | d;
 	}
 
-	datal = datar = 0;
+	uint32_t l = 0, r = 0;
 
-	for (i = 0; i < 18;)
+	for (int i = 0; i < 18;)
 	{
-		Encipher(datal, datar);
-
-		p[i++] = datal;
-		p[i++] = datar;
+		Encrypt(l, r);
+		m_p[i++] = l;
+		m_p[i++] = r;
 	}
 
-	for (i = 0; i < 4; i++)
-	{
-		for (j = 0; j < 256;)
+	for (int i = 0; i < 4; ++i)
+		for (int j = 0; j < 256;)
 		{
-			Encipher(datal, datar);
-
-			s[i][j++] = datal;
-			s[i][j++] = datar;
+			Encrypt(l, r);
+			m_s[i][j++] = l;
+			m_s[i][j++] = r;
 		}
-	}
 }
 
-int CBlowFish::S(int x, int i) const
+uint32_t* CBlowFish::Encrypt(uint32_t* data, uint32_t length)
 {
-	return s[i][(x >> ((3 - i) << 3)) & 0xff];
+	auto result = new uint32_t[length];
+
+	int size = length / 2;
+	int i = 0;
+	while (size-- > 0)
+	{
+		uint32_t a = SwapBytes(data[i]);
+		uint32_t b = SwapBytes(data[i + 1]);
+
+		Encrypt(a, b);
+
+		result[i++] = SwapBytes(a);
+		result[i++] = SwapBytes(b);
+	}
+
+	return result;
 }
 
-int CBlowFish::bf_f(int x) const
+uint32_t* CBlowFish::Decrypt(uint32_t* data, uint32_t length)
+{
+	auto result = new uint32_t[length];
+
+	int size = length / 2;
+	int i = 0;
+	while (size-- > 0)
+	{
+		uint32_t a = SwapBytes(data[i]);
+		uint32_t b = SwapBytes(data[i + 1]);
+
+		Decrypt(a, b);
+
+		result[i++] = SwapBytes(a);
+		result[i++] = SwapBytes(b);
+	}
+
+	return result;
+}
+
+uint32_t CBlowFish::S(uint32_t x, int i)
+{
+	return m_s[i][(x >> ((3 - i) << 3)) & 0xff];
+}
+
+uint32_t CBlowFish::bf_f(uint32_t x)
 {
 	return ((S(x, 0) + S(x, 1)) ^ S(x, 2)) + S(x, 3);
 }
 
-void CBlowFish::ROUND(int& a, int b, int n) const
+void CBlowFish::Round(uint32_t& a, uint32_t b, int n)
 {
-	a ^= bf_f(b) ^ p[n];
+	a ^= bf_f(b) ^ m_p[n];
 }
 
-void CBlowFish::Encipher(int& xl, int& xr) const
+uint32_t CBlowFish::SwapBytes(uint32_t i)
 {
-	int Xl = xl;
-	int Xr = xr;
-
-	Xl ^= p[0];
-	ROUND(Xr, Xl, 1);  ROUND(Xl, Xr, 2);
-	ROUND(Xr, Xl, 3);  ROUND(Xl, Xr, 4);
-	ROUND(Xr, Xl, 5);  ROUND(Xl, Xr, 6);
-	ROUND(Xr, Xl, 7);  ROUND(Xl, Xr, 8);
-	ROUND(Xr, Xl, 9);  ROUND(Xl, Xr, 10);
-	ROUND(Xr, Xl, 11); ROUND(Xl, Xr, 12);
-	ROUND(Xr, Xl, 13); ROUND(Xl, Xr, 14);
-	ROUND(Xr, Xl, 15); ROUND(Xl, Xr, 16);
-	Xr ^= p[17];
-
-	xr = Xl;
-	xl = Xr;
+	i = (i << 16) | (i >> 16);
+	i = ((i << 8) & 0xff00ff00) | ((i >> 8) & 0x00ff00ff);
+	return i;
 }
 
-void CBlowFish::Decipher(int& xl, int& xr) const
+void CBlowFish::Encrypt(uint32_t& a, uint32_t& b)
 {
-	int  Xl = xl;
-	int  Xr = xr;
+	uint32_t _a = a, _b = b;
+	_a ^= m_p[0];
 
-	Xl ^= p[17];
-	ROUND(Xr, Xl, 16);  ROUND(Xl, Xr, 15);
-	ROUND(Xr, Xl, 14);  ROUND(Xl, Xr, 13);
-	ROUND(Xr, Xl, 12);  ROUND(Xl, Xr, 11);
-	ROUND(Xr, Xl, 10);  ROUND(Xl, Xr, 9);
-	ROUND(Xr, Xl, 8);   ROUND(Xl, Xr, 7);
-	ROUND(Xr, Xl, 6);   ROUND(Xl, Xr, 5);
-	ROUND(Xr, Xl, 4);   ROUND(Xl, Xr, 3);
-	ROUND(Xr, Xl, 2);   ROUND(Xl, Xr, 1);
-	Xr ^= p[0];
-
-	xl = Xr;
-	xr = Xl;
-}
-
-int CBlowFish::reverse(int v) const
-{
-	/*_asm
+	bool x = false;
+	for (int i = 1; i <= 16; i++, x ^= true)
 	{
-		mov		eax, v
-		xchg	al, ah
-		rol		eax, 16
-		xchg	al, ah
-		mov		v, eax
-	}*/
-	v = (v << 16) | (v >> 16);
-	v = ((v << 8) & 0xFF00FF00) | ((v >> 8) & 0x00FF00FF);
-	return v;
-}
-
-void CBlowFish::Encipher(const void* s, void* d, int size) const
-{
-	const int* r = reinterpret_cast<const int*>(s);
-	int* w = reinterpret_cast<int*>(d);
-	size >>= 3;
-	while (size--)
-	{
-		int a = reverse(*r++);
-		int b = reverse(*r++);
-		Encipher(a, b);
-		*w++ = reverse(a);
-		*w++ = reverse(b);
+		if (x)
+			Round(_a, _b, i);
+		else
+			Round(_b, _a, i);
 	}
+	_b ^= m_p[17];
+
+	a = _b;
+	b = _a;
 }
 
-void CBlowFish::Decipher(const void* s, void* d, int size) const
+void CBlowFish::Decrypt(uint32_t& a, uint32_t& b)
 {
-	const int* r = reinterpret_cast<const int*>(s);
-	int* w = reinterpret_cast<int*>(d);
-	size >>= 3;
-	while (size--)
+	uint32_t _a = a, _b = b;
+	_a ^= m_p[17];
+
+	bool x = false;
+	for (int i = 16; i >= 1; i--, x ^= true)
 	{
-		int a = reverse(*r++);
-		int b = reverse(*r++);
-		Decipher(a, b);
-		*w++ = reverse(a);
-		*w++ = reverse(b);
+		if (x)
+			Round(_a, _b, i);
+		else
+			Round(_b, _a, i);
 	}
+	_b ^= m_p[0];
+
+	a = _b;
+	b = _a;
 }

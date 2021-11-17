@@ -3,33 +3,55 @@
 #include <Always.h>
 
 #include <vector>
+#include <map>
 
-// Codes mainly from XCC
-// References from CnC_Remastered_Collection
-
-struct CMixBlock
+struct CMixHeaderFlag
 {
-    int CRC;    // CRC code for embedded file.
-    int Offset; // Offset from start of data section.
-    int Size;   // Size of data subfile.
+    short IsPlain : 16;
+    short IsDigest : 1;
+    short IsEncrypted : 1;
+    short UnknownFlags : 14;
+};
 
-    int operator<=>(CMixBlock& another) const { return CRC - another.CRC; }
+struct CMixHeaderData
+{
+    uint16_t Count;
+    int DataSize;
+};
+
+union CMixHeader
+{
+    CMixHeaderFlag Flags;
+    CMixHeaderData Data;
+};
+
+struct CMixSubBlock
+{
+    uint32_t CRC;
+    int32_t Offset;
+    int32_t Size;
 };
 
 class CMixFile
 {
 public:
-    CMixFile(char* buffer);
+    CMixFile(CString& filename);
+    CMixFile(CString&& filename);
+    CMixFile(byte* data);
+    ~CMixFile();
 
-    static int CreateInstance(char* buffer);
-    static CMixFile* GetInstance(int index);
+    void LoadToMemory();
 
 private:
     static std::vector<CMixFile> Instances;
 
-private:
-
-
-private:
-
+    CString Filename;
+    bool IsDigest;
+    bool IsEncrypted;
+    bool IsPlain;
+    int Count;
+    int DataSize;
+    int DataStart;
+    std::map<uint32_t, CMixSubBlock> SubBlocks;
+    byte* ByteData;
 };

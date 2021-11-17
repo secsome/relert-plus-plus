@@ -2,6 +2,7 @@
 #include <CFinalSunDlg.h>
 
 #include <CINI.h>
+#include <CMixFile.h>
 
 CFinalSunDlg::CFinalSunDlg(CWnd* pParent)
 	: CDialogEx(IDD_CFINALSUN_DIALOG, pParent)
@@ -29,11 +30,24 @@ BOOL CFinalSunDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	CINI::Rules.ReadFromFile(R"(C:\Users\30270\Desktop\rulesmo.ini)");
-	for (auto& pair : CINI::Rules)
+	
+	std::ifstream fin;
+	fin.open("D:\\Games\\Mental Omega\\Mental Omega 3.3.6\\expandmo98.mix", std::ios::in | std::ios::binary);
+	if (fin.is_open())
 	{
-		
+		fin.seekg(0, std::ios::end);
+		const int size = static_cast<int>(fin.tellg());
+		if (size == 0)
+			return false;
+
+		fin.seekg(0, std::ios::beg);
+		auto pBuffer = new byte[size];
+		fin.read((char*)pBuffer, size);
+		fin.close();
+		CMixFile expandmo98(pBuffer);
+		expandmo98.LoadToMemory();
 	}
+
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }

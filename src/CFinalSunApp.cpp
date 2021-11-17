@@ -94,7 +94,7 @@ BOOL CFinalSunApp::InitInstance()
 	this->GlobalBuffer = this->ExePath;
 	this->GlobalBuffer += "\\FALanguage.ini";
 	CINI::FALanguage.ReadFromFile(this->GlobalBuffer);
-	if (CINI::FALanguage.GetSectionCount() == 0)
+	/*if (CINI::FALanguage.GetSectionCount() == 0)
 	{
 		::MessageBox(
 			NULL,
@@ -103,7 +103,7 @@ BOOL CFinalSunApp::InitInstance()
 			MB_OK
 		);
 		exit(0);
-	}
+	}*/
 
 	// FinalAlert INI, get FilePath, initialize members like ShowBuildingCells
 	this->GlobalBuffer = this->ExePath;

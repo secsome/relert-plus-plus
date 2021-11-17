@@ -2,26 +2,22 @@
 
 #include <Always.h>
 
-// Codes From XCC
-// 
-
 class CBlowFish
 {
 public:
-	void SetKey(const byte* key, int cb_key);
-	void Encipher(int& xl, int& xr) const;
-	void Encipher(const void* s, void* d, int size) const;
-	void Decipher(int& xl, int& xr) const;
-	void Decipher(const void* s, void* d, int size) const;
-private:
-	int reverse(int v) const;
-	int S(int x, int i) const;
-	int bf_f(int x) const;
-	void ROUND(int& a, int b, int n) const;
-	
-	static const unsigned int p_[18];
-	static const unsigned int s_[4][256];
+    CBlowFish();
+    void SetKey(byte* key, uint32_t size);
+    uint32_t* Encrypt(uint32_t* data, uint32_t length);
+    uint32_t* Decrypt(uint32_t* data, uint32_t length);
 
-	int p[18];
-	int s[4][256];
+private:
+    uint32_t S(uint32_t x, int i);
+    uint32_t bf_f(uint32_t x);
+    void Round(uint32_t& a, uint32_t b, int n);
+    uint32_t SwapBytes(uint32_t i);
+    void Encrypt(uint32_t& a, uint32_t& b);
+    void Decrypt(uint32_t& a, uint32_t& b);
+
+	uint32_t m_p[18];
+	uint32_t m_s[4][256];
 };

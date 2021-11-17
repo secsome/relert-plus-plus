@@ -41,6 +41,8 @@
 
 #include <Resource.h>
 
+#include <cstdint>
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -48,3 +50,6 @@
 #include <EnumHelper.h>
 
 #include <CFinalSunLog.h>
+
+// Serious alignment
+#pragma pack(1)
