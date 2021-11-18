@@ -76,7 +76,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>include\;$(IncludePath)</IncludePath>
+    <IncludePath>include\;res\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -188,6 +188,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\CLoading.h" />
     <ClInclude Include="include\CBlowFish.h" />
     <ClInclude Include="include\CCRC.h" />
     <ClInclude Include="include\CHSVClass.h" />
@@ -198,14 +199,14 @@
     <ClInclude Include="include\CFinalSunDlg.h" />
     <ClInclude Include="include\CFinalSunLog.h" />
     <ClInclude Include="include\CINI.h" />
-    <ClInclude Include="include\CLoading.h" />
     <ClInclude Include="include\CPalFile.h" />
     <ClInclude Include="include\EnumHelper.h" />
     <ClInclude Include="include\CObjectImage.h" />
-    <ClInclude Include="include\Resource.h" />
+    <ClInclude Include="res\Resource.h" />
     <ClInclude Include="include\Always.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Dialogs\CLoading.cpp" />
     <ClCompile Include="src\Algorithms\CBlowFish.cpp" />
     <ClCompile Include="src\Algorithms\CCRC.cpp" />
     <ClCompile Include="src\Structures\CMixFile.cpp" />
@@ -220,7 +221,6 @@
     <ClCompile Include="src\Structures\CRGBClass.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\Accelerators.rc" />
     <ResourceCompile Include="res\CFinalSunApp.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

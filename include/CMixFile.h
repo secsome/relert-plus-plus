@@ -52,6 +52,7 @@ public:
     static bool CacheFileData(CString&& filename);
     static bool CacheFileData(CString& filename);
     static void ClearAllCache();
+    static void ClearAllFile();
 
 private:
     static std::vector<CMixFile> Instances;
@@ -62,8 +63,9 @@ private:
     bool HasFile(uint32_t id) const;
     const CMixSubBlock* TryGetSubBlock(uint32_t id) const;
 
-    void SeekTo(int offset, int where) const;
-    void ReadBytes(void* buffer, size_t element_size, size_t element_count) const;
+    CMixFile* GetParent() const;
+    int SeekTo(int offset, int where) const;
+    size_t ReadBytes(void* buffer, size_t element_size, size_t element_count) const;
 
     CString Filename;
     bool IsDigest;
@@ -78,5 +80,5 @@ private:
         int Offset; // For the mixes in the raw root, we store a raw file pointer here
         FILE* FilePointer; //  and for sub mixes, we just store their offset in their parent
     };
-    CMixFile* Parent;
+    size_t Parent; // Index in the global array
 };

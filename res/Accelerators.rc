@@ -1,7 +1,0 @@
-#include <Windows.h>
-#include <Resource.h>
-
-IDD_ACCEL ACCELERATORS
-BEGIN
-
-END

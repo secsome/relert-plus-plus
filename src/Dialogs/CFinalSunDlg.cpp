@@ -11,6 +11,11 @@ CFinalSunDlg::CFinalSunDlg(CWnd* pParent)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+CFinalSunDlg::~CFinalSunDlg()
+{
+	this->CDialogEx::~CDialogEx();
+}
+
 void CFinalSunDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
@@ -25,12 +30,38 @@ BOOL CFinalSunDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
-	SetIcon(m_hIcon, TRUE);			// Set big icon
-	SetIcon(m_hIcon, FALSE);		// Set small icon
+	CFinalSunLog::Instance.Log(__FUNCTION__" called\n");
+	this->ShowWindow(SW_HIDE);
+	const int cx = GetSystemMetrics(SM_CXFULLSCREEN);
+	const int cy = GetSystemMetrics(SM_CYFULLSCREEN);
+	this->SetWindowPos(nullptr, 0, 0, cx, cy, NULL);
+	SetIcon(m_hIcon, TRUE);
+	SetIcon(m_hIcon, FALSE);
 
-	// TODO: Add extra initialization here
+	this->SetWindowText("Relert-sharp-sharp - (NoMapLoaded)");
+	// Create CFrameWnd
+	// Create CRebarCtrl
+	// Create ToolBar3
+	// Create ToolBar2
+	// Create ToolBar1
+	// Show Rebar
+	// Show Toolbar3
+	// Show Toolbar2
+	// Show BrushSize
+	// if (failed to create rebar)
+	CFinalSunLog::Instance.Log("Updating menu\n");
+	// Update dialogs
+	/*if (this->CLoading.m_hWnd == NULL)
+	{
+		this->MessageBox("Loading dialog could not be created. Please close any programs and start again.");
+		exit(-99);
+	}*/
+	// this->CLoading.ShowWindow(SW_SHOW);
+	this->CLoading.Load();
+
+	// Marble loaded
+
+	this->ShowWindow(SW_SHOWMAXIMIZED);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }

@@ -121,6 +121,13 @@ BOOL CFinalSunApp::InitInstance()
 	this->RecentFiles[2] = CINI::FinalAlert.ReadString("Files", "2");
 	this->RecentFiles[3] = CINI::FinalAlert.ReadString("Files", "3");
 
+	this->GlobalBuffer = CINI::FinalAlert.ReadString("YR", "FilePath");
+
+	this->GlobalBuffer = R"(D:\Games\Mental Omega\Mental Omega 3.3.6)";
+
+	this->GlobalBuffer.AppendChar('\\');
+	strcpy_s(this->FilePath, this->GlobalBuffer);
+
 	// Create CLoading
 
 	CFinalSunDlg cFinalSunDlg;

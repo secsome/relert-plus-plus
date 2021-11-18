@@ -21,7 +21,7 @@
     <ClInclude Include="include\CFinalSunDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Resource.h">
+    <ClInclude Include="res\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Always.h">
@@ -31,9 +31,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\CINI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CLoading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\EnumHelper.h">
@@ -61,6 +58,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\CPublicKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CLoading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,12 +101,12 @@
     <ClCompile Include="src\Algorithms\CPublicKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Dialogs\CLoading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\CFinalSunApp.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="res\Accelerators.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

@@ -13,36 +13,37 @@ CMixFile::CMixFile() = default;
 
 CMixFile::~CMixFile()
 {
-    if (!this->Parent)
-        fclose(this->FilePointer);
 }
 
 bool CMixFile::LoadMixFile(CString filename)
 {
-    FILE* fp;
-    fopen_s(&fp, theApp.FilePath + filename, "rb");
+    CString filepath = theApp.FilePath + filename;
+    FILE* fp = nullptr;
+    fopen_s(&fp, filepath, "rb");
     if (fp)
     {
         CMixFile::Instances.emplace_back(CMixFile());
         auto& mix = CMixFile::Instances.back();
         mix.Filename = filename;
-        mix.Parent = nullptr;
+        mix.Parent = -1;
         mix.FilePointer = fp;
         mix.LoadToMemory();
         return true;
     }
     else // Notice we will never cache a mix file
     {
-        for (auto& parent : CMixFile::Instances)
+        for (size_t i = 0; i < CMixFile::Instances.size(); ++i)
         {
+            auto& parent = CMixFile::Instances[i];
             CCRC crc;
             if (auto pBlock = parent.TryGetSubBlock(crc(filename)))
             {
+                const auto offset = pBlock->Offset;
                 CMixFile::Instances.emplace_back(CMixFile());
                 auto& mix = CMixFile::Instances.back();
                 mix.Filename = filename;
-                mix.Parent = &parent;
-                mix.Offset = pBlock->Offset;
+                mix.Parent = i;
+                mix.Offset = offset;
                 mix.LoadToMemory();
 
                 return true;
@@ -142,10 +143,20 @@ void CMixFile::ClearAllCache()
     CMixFile::CachedFiles.clear();
 }
 
+void CMixFile::ClearAllFile()
+{
+    for (auto& mix : CMixFile::Instances)
+        if (mix.Parent == -1)
+            fclose(mix.FilePointer);
+
+    CMixFile::Instances.clear();
+}
+
 void CMixFile::LoadToMemory()
 {
     CBlowFish bf;
     CMixHeader header;
+
     this->SeekTo(0, SEEK_SET);
     this->ReadBytes(&header, sizeof(header), 1);
 
@@ -168,7 +179,7 @@ void CMixFile::LoadToMemory()
         }
     }
 
-    if (!header.Flags.IsEncrypted)
+    if (!this->IsEncrypted)
     {
         for (int i = 0; i < this->Count; ++i)
         {
@@ -194,11 +205,12 @@ void CMixFile::LoadToMemory()
         uint32_t e[2];
         this->ReadBytes(e, sizeof(e), 1);
         auto pHeader = bf.Decrypt(e, 2);
-        this->Count = static_cast<uint16_t>(e[0]);
-        this->DataSize = e[1];
+        this->Count = static_cast<uint16_t>(pHeader[0]);
+        this->DataSize = pHeader[1];
 
         const int cb_index = this->Count * sizeof(CMixSubBlock);
         const int cb_f = cb_index + 5 & ~7;
+        this->DataStart = 92 + cb_f;
 
         if (this->Count)
         {
@@ -206,7 +218,7 @@ void CMixFile::LoadToMemory()
             this->ReadBytes(buffer, cb_f, 1);
             auto f = bf.Decrypt(reinterpret_cast<uint32_t*>(buffer), cb_f / 4);
             CMixSubBlock tmp;
-            memcpy(&tmp, reinterpret_cast<byte*>(e) + 6, 2);
+            memcpy(&tmp, reinterpret_cast<byte*>(pHeader) + 6, 2);
             memcpy(reinterpret_cast<byte*>(&tmp) + 2, f, 10);
             this->SubBlocks[tmp.CRC] = tmp;
             
@@ -252,18 +264,23 @@ const CMixSubBlock* CMixFile::TryGetSubBlock(uint32_t id) const
     return itr != this->SubBlocks.end() ? &itr->second : nullptr;
 }
 
-void CMixFile::SeekTo(int offset, int where) const
+CMixFile* CMixFile::GetParent() const
 {
-    if (!this->Parent)
-        fseek(this->FilePointer, offset, where);
-    else
-        this->Parent->SeekTo(this->Parent->DataStart + this->Offset + offset, where);
+    return this->Parent != -1 ? &CMixFile::Instances[this->Parent] : nullptr;
 }
 
-void CMixFile::ReadBytes(void* buffer, size_t element_size, size_t element_count) const
+int CMixFile::SeekTo(int offset, int where) const
 {
-    if (!this->Parent)
-        fread(buffer, element_size, element_count, this->FilePointer);
+    if (this->Parent == -1)
+        return fseek(this->FilePointer, offset, where);
     else
-        this->Parent->ReadBytes(buffer, element_size, element_count);
+        return this->GetParent()->SeekTo(this->GetParent()->DataStart + this->Offset + offset, where);
+}
+
+size_t CMixFile::ReadBytes(void* buffer, size_t element_size, size_t element_count) const
+{
+    if (this->Parent == -1)
+        return fread(buffer, element_size, element_count, this->FilePointer);
+    else
+        return this->GetParent()->ReadBytes(buffer, element_size, element_count);
 }

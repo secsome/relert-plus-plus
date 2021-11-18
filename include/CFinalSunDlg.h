@@ -2,15 +2,21 @@
 
 #include <Always.h>
 
+#include <CLoading.h>
+
 class CFinalSunDlg : public CDialogEx
 {
 // Construction
 public:
 	CFinalSunDlg(CWnd* pParent = nullptr);
+	virtual ~CFinalSunDlg();
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_CFINALSUN_DIALOG };
+#endif
 
 // Implementation
 protected:
@@ -22,4 +28,7 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
+private:
+	CLoading CLoading;
 };
