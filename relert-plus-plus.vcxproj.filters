@@ -63,6 +63,9 @@
     <ClInclude Include="include\CLoading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\CFileClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CFinalSunApp.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Dialogs\CLoading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Structures\CFileClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

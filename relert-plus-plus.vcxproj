@@ -188,6 +188,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\CFileClass.h" />
     <ClInclude Include="include\CLoading.h" />
     <ClInclude Include="include\CBlowFish.h" />
     <ClInclude Include="include\CCRC.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="src\Dialogs\CLoading.cpp" />
     <ClCompile Include="src\Algorithms\CBlowFish.cpp" />
     <ClCompile Include="src\Algorithms\CCRC.cpp" />
+    <ClCompile Include="src\Structures\CFileClass.cpp" />
     <ClCompile Include="src\Structures\CMixFile.cpp" />
     <ClCompile Include="src\Structures\CPalFile.cpp" />
     <ClCompile Include="src\CFinalSunApp.cpp" />

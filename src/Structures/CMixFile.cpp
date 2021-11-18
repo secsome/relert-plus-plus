@@ -35,8 +35,7 @@ bool CMixFile::LoadMixFile(CString filename)
         for (size_t i = 0; i < CMixFile::Instances.size(); ++i)
         {
             auto& parent = CMixFile::Instances[i];
-            CCRC crc;
-            if (auto pBlock = parent.TryGetSubBlock(crc(filename)))
+            if (auto pBlock = parent.TryGetSubBlock(CCRC()(filename)))
             {
                 const auto offset = pBlock->Offset;
                 CMixFile::Instances.emplace_back(CMixFile());
@@ -61,8 +60,7 @@ byte* CMixFile::Retreive(CString&& filename, size_t* pSize, bool cache)
 
 byte* CMixFile::Retreive(CString& filename, size_t* pSize, bool cache)
 {
-    CCRC crc;
-    uint32_t id = crc(filename);
+    uint32_t id = CCRC()(filename);
     if (auto pCache = CMixFile::GetCachedData(id))
     {
         if (pSize)
@@ -129,8 +127,7 @@ bool CMixFile::CacheFileData(CString&& filename)
 
 bool CMixFile::CacheFileData(CString& filename)
 {
-    CCRC crc;
-    uint32_t id = crc(filename);
+    uint32_t id = CCRC()(filename);
 
     return CMixFile::CacheFileData(id);
 }
