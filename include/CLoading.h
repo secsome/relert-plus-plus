@@ -16,6 +16,7 @@ public:
 
 	void Load();
 	void InitMixFiles();
+	void InitPalettes();
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);

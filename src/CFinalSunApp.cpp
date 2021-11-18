@@ -6,6 +6,7 @@
 #include <CFinalSunDlg.h>
 
 #include <CINI.h>
+#include <CMixFile.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -19,6 +20,8 @@ CFinalSunApp::CFinalSunApp() = default;
 
 CFinalSunApp::~CFinalSunApp()
 {
+	CMixFile::ClearAllCache();
+	CMixFile::ClearAllFile();
 	CFinalSunLog::Instance.Close();
 }
 

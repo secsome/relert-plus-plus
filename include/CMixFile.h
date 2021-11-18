@@ -28,13 +28,13 @@ union CMixHeader
 struct CMixSubBlock
 {
     uint32_t CRC;
-    int32_t Offset;
-    int32_t Size;
+    uint32_t Offset;
+    uint32_t Size;
 };
 
 struct CMixCachedFile
 {
-    int32_t Size;
+    uint32_t Size;
     void* Buffer;
 };
 

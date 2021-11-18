@@ -66,6 +66,9 @@
     <ClInclude Include="include\CFileClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\CTintStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CFinalSunApp.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Structures\CFileClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Structures\CTintStruct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

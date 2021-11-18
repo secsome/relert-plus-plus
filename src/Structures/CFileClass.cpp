@@ -66,6 +66,17 @@ bool CFileClass::Open(uint32_t id)
         this->Position = 0;
         return true;
     }
+    
+    if (!CMixFile::CacheFileData(id))
+        return false;
+
+    if (auto pCache = CMixFile::GetCachedData(id))
+    {
+        this->Cache = pCache;
+        this->IsInCache = true;
+        this->Position = 0;
+        return true;
+    }
 
     return false;
 }

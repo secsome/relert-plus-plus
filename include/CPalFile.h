@@ -3,13 +3,14 @@
 #include <Always.h>
 
 #include <CRGBClass.h>
+#include <CTintStruct.h>
 
-#include <vector>
+#include <map>
 
 class CPalFile
 {
 public:
-    CPalFile(char* buffer);
+    CPalFile();
 
     using iterator = CRGBClass*;
 
@@ -18,11 +19,11 @@ public:
 
     CRGBClass& operator[](int index);
 
-    static int CreateInstance(char* buffer);
-    static CPalFile* GetInstance(int index);
+    static void CreateInstance(CString name, CTintStruct remap = CTintStruct::NoRemap, CTintStruct tint = CTintStruct::StandardTint);
+    static CPalFile* GetInstance(CString name, CTintStruct remap = CTintStruct::NoRemap, CTintStruct tint = CTintStruct::StandardTint);
 
 private:
-    static std::vector<CPalFile> Instances;
+    static std::map<CString, std::map<CTintStruct, std::map<CTintStruct, CPalFile>>> Instances;
 
 private:
     void Decode();

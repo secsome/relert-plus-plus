@@ -201,6 +201,7 @@
     <ClInclude Include="include\CFinalSunLog.h" />
     <ClInclude Include="include\CINI.h" />
     <ClInclude Include="include\CPalFile.h" />
+    <ClInclude Include="include\CTintStruct.h" />
     <ClInclude Include="include\EnumHelper.h" />
     <ClInclude Include="include\CObjectImage.h" />
     <ClInclude Include="res\Resource.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="src\Structures\CObjectImage.cpp" />
     <ClCompile Include="src\Algorithms\CPublicKey.cpp" />
     <ClCompile Include="src\Structures\CRGBClass.cpp" />
+    <ClCompile Include="src\Structures\CTintStruct.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\CFinalSunApp.rc" />
