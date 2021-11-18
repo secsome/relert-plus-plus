@@ -19,6 +19,7 @@ public:
 	DECLARE_MESSAGE_MAP()
 
 // Properties
+public:
 	CString GlobalBuffer;
 	char ExePath[MAX_PATH];
 	char FilePath[MAX_PATH];

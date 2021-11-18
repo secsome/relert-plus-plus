@@ -4,24 +4,19 @@
 
 // Codes from CnC_Remastered_Collection
 
-class CCRC 
+class CCRC
 {
 public:
-	CCRC(int initial = 0);
+	CCRC(uint32_t initial = 0);
 
-	int operator() () const { return(Value()); };
-	void operator() (char datum);
-	int operator() (void const* buffer, int length);
-	operator int() const { return(Value()); };
+	uint32_t operator()() const;
+	uint32_t operator()(void const* buffer, size_t length);
+	uint32_t operator()(CString s);
 
-protected:
-	int Value() const;
+	void Reset(uint32_t val = 0);
 
-	int CRC;
-	int Index;
-	union 
-	{
-		long Composite;
-		char Buffer[sizeof(int)];
-	} StagingBuffer;
+private:
+	static uint32_t CRCTable[0x100];
+
+	uint32_t Value;
 };

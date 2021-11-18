@@ -44,8 +44,10 @@
 #include <cstdint>
 
 #ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
+#ifdef new
+#undef new
+#endif // new
+#endif // _DEBUG
 
 #include <EnumHelper.h>
 
