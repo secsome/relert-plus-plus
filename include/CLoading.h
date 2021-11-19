@@ -2,6 +2,8 @@
 
 #include <Always.h>
 
+class CINI;
+
 class CLoading : public CDialogEx
 {
 	DECLARE_DYNAMIC(CLoading)
@@ -17,6 +19,8 @@ public:
 	void Load();
 	void InitMixFiles();
 	void InitPalettes();
+	bool LoadTSINI(const char* name, CINI* pINI);
+	void InitINIFiles();
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);

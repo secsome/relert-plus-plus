@@ -26,6 +26,7 @@ public:
     void Close();
 
     bool IsEOF() const;
+    void* GetBuffer() const;
     size_t GetSize() const;
     size_t GetPosition() const;
 

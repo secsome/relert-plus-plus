@@ -204,6 +204,7 @@
     <ClInclude Include="include\CTintStruct.h" />
     <ClInclude Include="include\EnumHelper.h" />
     <ClInclude Include="include\CObjectImage.h" />
+    <ClInclude Include="include\FileNames.h" />
     <ClInclude Include="res\Resource.h" />
     <ClInclude Include="include\Always.h" />
   </ItemGroup>

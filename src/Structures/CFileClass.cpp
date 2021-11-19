@@ -96,6 +96,11 @@ bool CFileClass::IsEOF() const
     return this->Position >= this->Cache->Size;
 }
 
+void* CFileClass::GetBuffer() const
+{
+    return this->Cache->Buffer;
+}
+
 size_t CFileClass::GetSize() const
 {
     return this->Cache->Size;

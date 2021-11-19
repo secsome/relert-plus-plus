@@ -69,6 +69,9 @@
     <ClInclude Include="include\CTintStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\FileNames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CFinalSunApp.cpp">
